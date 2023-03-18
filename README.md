@@ -2,6 +2,8 @@
 
 This project aims to designed to build a compliant application stack that aims to pass SOC 2, GDPR, and HIPAA controls. It leverages AWS Config and CloudWatch for monitoring and alerting and uses AWS services such as Next.js and Aurora MySQL to provide a scalable and secure architecture.
 
+[![Known Vulnerabilities](https://snyk.io/test/github/andrewwint/cdk-compliant-aurora-nextjs/badge.svg)](https://snyk.io/test/github/andrewwint/cdk-compliant-aurora-nextjs)
+
 [![Infrastructure Tests](https://www.bridgecrew.cloud/badges/github/andrewwint/cdk-compliant-aurora-nextjs/general)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=andrewwint%2Fcdk-compliant-aurora-nextjs&benchmark=INFRASTRUCTURE+SECURITY)
 
 [![Infrastructure Tests](https://www.bridgecrew.cloud/badges/github/andrewwint/nextjs-prisma-webapp/hipaa)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=andrewwint%2Fnextjs-prisma-webapp&benchmark=HIPAA)
