@@ -2,6 +2,18 @@
 
 This project aims to designed to build a compliant application stack that aims to pass SOC 2, GDPR, and HIPAA controls. It leverages AWS Config and CloudWatch for monitoring and alerting and uses AWS services such as Next.js and RDS Aurora MySQL to provide a scalable and secure architecture.
 
+[![Infrastructure Tests](https://www.bridgecrew.cloud/badges/github/andrewwint/cdk-compliant-aurora-nextjs/general)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=andrewwint%2Fcdk-compliant-aurora-nextjs&benchmark=INFRASTRUCTURE+SECURITY)
+
+[![Infrastructure Tests](https://www.bridgecrew.cloud/badges/github/andrewwint/nextjs-prisma-webapp/hipaa)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=andrewwint%2Fnextjs-prisma-webapp&benchmark=HIPAA)
+
+[![Infrastructure Tests](https://www.bridgecrew.cloud/badges/github/andrewwint/nextjs-prisma-webapp/soc2)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=andrewwint%2Fnextjs-prisma-webapp&benchmark=SOC2)
+
+[![Infrastructure Tests](https://www.bridgecrew.cloud/badges/github/andrewwint/nextjs-prisma-webapp/nist)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=andrewwint%2Fnextjs-prisma-webapp&benchmark=NIST-800-53)
+
+[![Infrastructure Tests](https://www.bridgecrew.cloud/badges/github/andrewwint/nextjs-prisma-webapp/cis_aws_13)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=andrewwint%2Fnextjs-prisma-webapp&benchmark=CIS+AWS+V1.3)
+
+[![Infrastructure Tests](https://www.bridgecrew.cloud/badges/github/andrewwint/nextjs-prisma-webapp/pci)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=andrewwint%2Fnextjs-prisma-webapp&benchmark=PCI-DSS+V3.2)
+
 ## CdkCompliantAuroraNextjsStack
 
 ![alt](./assets/AuroraPinpointStack.template.json.png)
