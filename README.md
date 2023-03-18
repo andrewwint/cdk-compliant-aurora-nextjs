@@ -1,6 +1,6 @@
-# CDK-Compliant-Aurora-Next.js: A Compliant IaC Solution for Deploying Next.js Web Apps on AWS with RDS Aurora MySQL and Amplify CI/CD
+# CDK-Compliant-Aurora-Next.js: A Compliant IaC Solution for Deploying Next.js Web Apps on AWS with Aurora MySQL and Amplify CI/CD
 
-This project aims to designed to build a compliant application stack that aims to pass SOC 2, GDPR, and HIPAA controls. It leverages AWS Config and CloudWatch for monitoring and alerting and uses AWS services such as Next.js and RDS Aurora MySQL to provide a scalable and secure architecture.
+This project aims to designed to build a compliant application stack that aims to pass SOC 2, GDPR, and HIPAA controls. It leverages AWS Config and CloudWatch for monitoring and alerting and uses AWS services such as Next.js and Aurora MySQL to provide a scalable and secure architecture.
 
 [![Infrastructure Tests](https://www.bridgecrew.cloud/badges/github/andrewwint/cdk-compliant-aurora-nextjs/general)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=andrewwint%2Fcdk-compliant-aurora-nextjs&benchmark=INFRASTRUCTURE+SECURITY)
 
@@ -49,7 +49,7 @@ The project is structured as follows:
 
 - `./cdk.json`: Configuration file for the AWS CDK v2 uses.
 - `./lib/`: Contains the TypeScript code for the AWS CDK stack.
-- `./lib/aws-serverless-aurora-pinpoint-stack.ts`: CDK construct for creating an Aurora Serverless database cluster.
+- `./lib/cdk-compliant-aurora-nextjs-stack.ts`: CDK construct for creating an Aurora MySQL database cluster.
 - `./lib/apps/nextjs-app-hosting.ts`: CDK app for creating a Next.js application stack.
 - `./lib/constructs/config-compliance[gdpr,hippa,soc].ts`: CDK construct for enabling AWS Config.
 - `./lib/constructs/clouldwatch-dashboard..ts`: CDK construct for enabling CloudWatch monitoring and alerts.
