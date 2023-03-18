@@ -1,21 +1,14 @@
 #!/usr/bin/env node
-import 'source-map-support/register';
-import * as cdk from 'aws-cdk-lib';
-import { CdkCompliantAuroraNextjsStack } from '../lib/cdk-compliant-aurora-nextjs-stack';
+import "source-map-support/register";
+import * as cdk from "aws-cdk-lib";
+import { CdkCompliantAuroraNextjsStack } from "../lib/cdk-compliant-aurora-nextjs-stack";
 
 const app = new cdk.App();
-new CdkCompliantAuroraNextjsStack(app, 'CdkCompliantAuroraNextjsStack', {
-  /* If you don't specify 'env', this stack will be environment-agnostic.
-   * Account/Region-dependent features and context lookups will not work,
-   * but a single synthesized template can be deployed anywhere. */
-
-  /* Uncomment the next line to specialize this stack for the AWS Account
-   * and Region that are implied by the current CLI configuration. */
-  // env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION },
-
-  /* Uncomment the next line if you know exactly what Account and Region you
-   * want to deploy the stack to. */
-  // env: { account: '123456789012', region: 'us-east-1' },
-
-  /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
+new CdkCompliantAuroraNextjsStack(app, "CdkCompliantAuroraNextjsStack", {
+  projectName: "patient-portal",
+  emailSubscription: "from@email.com",
+  domainName: "patient-portal.com",
+  instanceSize: "small",
+  repositoryName: "nextjs-prisma-webapp",
+  repositoryOwner: "andrewwint",
 });

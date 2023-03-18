@@ -1,0 +1,16 @@
+{
+        // See https://go.microsoft.com/fwlink/?LinkId=827846
+        // for the documentation about the extensions.json format
+        "recommendations": [
+                "github.copilot",
+                "vivaxy.vscode-conventional-commits",
+                "ms-azuretools.vscode-docker",
+                "amazonwebservices.aws-toolkit-vscode",
+                "mklein.cdk-snippets",
+                "aaron-bond.better-comments",
+                "dbaeumer.vscode-eslint",
+                "ms-vscode.vscode-typescript-next",
+                "esbenp.prettier-vscode",
+                "ms-vscode.vscode-typescript-tslint-plugin",
+        ]
+}
