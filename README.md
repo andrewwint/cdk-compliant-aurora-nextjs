@@ -22,7 +22,11 @@ This project aims to designed to build a compliant application stack that aims t
 
 ## CdkCompliantAuroraNextjsStack/**NextjsAppHosting**
 
-<img src="https://velog.velcdn.com/images/sinclairr/post/fb146ca7-654e-41df-8b26-33e01ffffe7b/image.png" width="473">
+<a href="https://github.com/andrewwint/nextjs-prisma-webapp">
+  <img src="https://velog.velcdn.com/images/sinclairr/post/fb146ca7-654e-41df-8b26-33e01ffffe7b/image.png" width="473">
+</a>
+
+Next.js Web App `https://github.com/andrewwint/nextjs-prisma-webapp`
 
 ## Getting Started
 
