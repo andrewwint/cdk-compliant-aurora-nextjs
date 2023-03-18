@@ -1,12 +1,12 @@
-# AWS CDK v2 - NextJS, with Aurora MySQL and Cloudwatch Monitoring -- TypeScript
+# CDK-Compliant-Aurora-Next.js: A Compliant IaC Solution for Deploying Next.js Web Apps on AWS with RDS Aurora MySQL and Amplify CI/CD
 
 This project aims to designed to build a compliant application stack that aims to pass SOC 2, GDPR, and HIPAA controls. It leverages AWS Config and CloudWatch for monitoring and alerting and uses AWS services such as Next.js and RDS Aurora MySQL to provide a scalable and secure architecture.
 
-## AuroraPinpointStack
+## CdkCompliantAuroraNextjsStack
 
 ![alt](./assets/AuroraPinpointStack.template.json.png)
 
-## AuroraPinpointStack/**NextjsAppHosting**
+## CdkCompliantAuroraNextjsStack/**NextjsAppHosting**
 
 <img src="https://velog.velcdn.com/images/sinclairr/post/fb146ca7-654e-41df-8b26-33e01ffffe7b/image.png" width="473">
 
@@ -81,39 +81,54 @@ This project is designed to comply with SOC 2, GDPR, and HIPAA controls. The fol
 7. **Configure Secrets Manager:** Users will need to manually set up and configure their Secrets Manager secrets.
 8. **GitHub Secret permissioning:** Users will need to manually set up and configure permissions for GitHub secrets, such as allowing CodeBuild to access the secrets.
 
+
+
 ## Congifuration
 
 ```js
 const app = new App();
-const databaseCluster = new AwsServerlessAuroraPinpointStack(
-  app,
-  "AuroraPinpointStack",
-  {
-    projectName: "patient-portal",
-    emailSubscription: "from@email.com",
-    domainName: "patient-portal.com",
-    instanceSize: "small",
-    repositoryName: "github-repo-name-here",
-    repositoryOwner: "github-username-here",
-  }
-);
+new CdkCompliantAuroraNextjsStack(app, "CdkCompliantAuroraNextjsStack", {
+  projectName: "patient-portal",
+  emailSubscription: "from@email.com",
+  domainName: "patient-portal.com",
+  instanceSize: "small",
+  repositoryName: "nextjs-prisma-webapp",
+  repositoryOwner: "andrewwint",
+});
 ```
 
-``
-
-## `localstack` Output
-
-### AuroraPinpointStack, AuroraPinpointStack/NextjsAppHosting
-
-`cdklocal deploy --all`
-
-![alt](./assets/Output.png)
-
-## Checkov
+## Checkov Static Code Analysis Tool
 
 Checkov is a static code analysis tool for scanning infrastructure as code (IaC) files for misconfigurations that may lead to security or compliance problems. Checkov includes more than 750 predefined policies to check for common misconfiguration issues.
 
 ```shell
 cdk synth
-checkov -f ./cdk.out/AuroraPinpointStack.template.json -f ./cdk.out/AuroraPinpointStackNextjsAppHosting5A30D8B5.template.json
+checkov -f checkov -f ./cdk.out/CdkCompliantAuroraNextjsStack.template.json -f ./cdk.out/CdkCompliantAuroraNextjsStackNextjsAppHosting955FDA38.template.json
+
+[ kubernetes framework ]: 100%|████████████████████|[2/2], Current File Scanned=cdk.out/CdkCompliantAuroraNextjsStackNextjsAppHosting955FDA38.temp
+[ cloudformation framework ]: 100%|████████████████████|[2/2], Current File Scanned=/cdk.out/CdkCompliantAuroraNextjsStackNextjsAppHosting955FDA38
+[ secrets framework ]: 100%|████████████████████|[2/2], Current File Scanned=./cdk.out/CdkCompliantAuroraNextjsStackNextjsAppHosting955FDA38.templ
+
+
+       _               _              
+   ___| |__   ___  ___| | _______   __
+  / __| '_ \ / _ \/ __| |/ / _ \ \ / /
+ | (__| | | |  __/ (__|   < (_) \ V / 
+  \___|_| |_|\___|\___|_|\_\___/ \_/  
+                                      
+By bridgecrew.io | version: 2.3.90 
+Update available 2.3.90 -> 2.3.96
+Run pip3 install -U checkov to update 
+
+
+cloudformation scan results:
+
+Passed checks: 83, Failed checks: 0, Skipped checks: 0
+Check: CKV_AWS_108: "Ensure IAM policies does not allow data exfiltration"
+        PASSED for resource: AWS::IAM::Role.ConfigRoleF94F46B6
+        File: /cdk.out/CdkCompliantAuroraNextjsStack.template.json:42-75
+        Guide: https://docs.bridgecrew.io/docs/ensure-iam-policies-do-not-allow-data-exfiltration
+Check: CKV_AWS_111: "Ensure IAM policies does not allow write access without constraints"
+        PASSED for resource: AWS::IAM::Role.ConfigRoleF94F46B6
+        File: /cdk.out/CdkCompliantAuroraNextjsStack.template.json:42-75
 ```
