@@ -107,11 +107,11 @@ This project is designed to comply with SOC 2, GDPR, and HIPAA controls. The fol
 const app = new App();
 new CdkCompliantAuroraNextjsStack(app, "CdkCompliantAuroraNextjsStack", {
   projectName: "patient-portal",
-  emailSubscription: "from@email.com",
+  emailSubscription: "no-reply@email.com",
   domainName: "patient-portal.com",
   instanceSize: "small",
   repositoryName: "nextjs-prisma-webapp",
-  repositoryOwner: "andrewwint",
+  repositoryOwner: "orgname",
 });
 ```
 
