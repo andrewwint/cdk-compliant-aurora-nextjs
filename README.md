@@ -68,7 +68,7 @@ This project is designed to comply with SOC 2, GDPR, and HIPAA controls. The fol
 - Access controls using IAM roles and policies
 - Continuous monitoring using AWS Config and CloudWatch
 - Auditing and logging of all application activity
-- Automatic backups and disaster recovery using Aurora Serverless
+- Automatic backups and disaster recovery using Aurora RDS
 - Secure email communication using Pinpoint (optional)
 
 ### Features
