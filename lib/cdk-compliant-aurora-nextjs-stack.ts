@@ -184,6 +184,13 @@ export class CdkCompliantAuroraNextjsStack extends cdk.Stack {
       description: "Security Group for " + dbName,
     });
 
+    // add ingress rule to allow access to the database from the VPC from any IP
+    dbSecurityGroup.addIngressRule(
+      ec2.Peer.ipv4("0.0.0.0/0"),
+      ec2.Port.tcp(3306),
+      "Allow access to the database from the VPC from any IP"
+    );
+
     // Instance Type factory
     const instanceTypeFactory = (instanceType: string) => {
       switch (instanceType) {
