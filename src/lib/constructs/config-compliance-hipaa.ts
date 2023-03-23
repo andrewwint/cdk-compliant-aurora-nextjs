@@ -1,6 +1,6 @@
-import { Construct, } from 'constructs';
 import { StackProps, CfnOutput } from 'aws-cdk-lib';
 import * as config from 'aws-cdk-lib/aws-config';
+import { Construct } from 'constructs';
 
 export interface ConfigComplianceHipaaProps extends StackProps {
   readonly projectName?: string;
@@ -18,7 +18,7 @@ export class ConfigComplianceHipaa extends Construct {
         allSupported: true,
         includeGlobalResourceTypes: true,
       },
-      roleArn: <string>props?.roleArn
+      roleArn: <string>props?.roleArn,
     });
 
     // Set up AWS Config rules for SOC 2 compliance
@@ -30,59 +30,59 @@ export class ConfigComplianceHipaa extends Construct {
     const hipaaRules = [
       // Rules related to security, availability, processing integrity, confidentiality, and privacy
       {
-        "name": "EBS Volume Encryption",
-        "description": "Checks that EBS volumes attached to EC2 instances are encrypted",
-        "inputParameters": {},
-        "maximumExecutionFrequency": "TwentyFour_Hours",
-        "complianceResourceId": "AWS::EC2::Volume",
-        "complianceResourceTypes": [
-          "AWS::EC2::Volume"
+        name: 'EBS Volume Encryption',
+        description: 'Checks that EBS volumes attached to EC2 instances are encrypted',
+        inputParameters: {},
+        maximumExecutionFrequency: 'TwentyFour_Hours',
+        complianceResourceId: 'AWS::EC2::Volume',
+        complianceResourceTypes: [
+          'AWS::EC2::Volume',
         ],
-        "owner": "AWS",
-        "sourceDetails": [
+        owner: 'AWS',
+        sourceDetails: [
           {
-            "eventSource": "aws.config",
-            "messageType": "ConfigurationItemChangeNotification",
-            "sourceIdentifier": "AWS_EBS_VOLUME_ENCRYPTION"
-          }
-        ]
+            eventSource: 'aws.config',
+            messageType: 'ConfigurationItemChangeNotification',
+            sourceIdentifier: 'AWS_EBS_VOLUME_ENCRYPTION',
+          },
+        ],
       },
       {
-        "name": "RDS Encryption",
-        "description": "Checks that RDS instances are encrypted",
-        "inputParameters": {},
-        "maximumExecutionFrequency": "TwentyFour_Hours",
-        "complianceResourceId": "AWS::RDS::DBInstance",
-        "complianceResourceTypes": [
-          "AWS::RDS::DBInstance"
+        name: 'RDS Encryption',
+        description: 'Checks that RDS instances are encrypted',
+        inputParameters: {},
+        maximumExecutionFrequency: 'TwentyFour_Hours',
+        complianceResourceId: 'AWS::RDS::DBInstance',
+        complianceResourceTypes: [
+          'AWS::RDS::DBInstance',
         ],
-        "owner": "AWS",
-        "sourceDetails": [
+        owner: 'AWS',
+        sourceDetails: [
           {
-            "eventSource": "aws.config",
-            "messageType": "ConfigurationItemChangeNotification",
-            "sourceIdentifier": "AWS_RDS_ENCRYPTION"
-          }
-        ]
+            eventSource: 'aws.config',
+            messageType: 'ConfigurationItemChangeNotification',
+            sourceIdentifier: 'AWS_RDS_ENCRYPTION',
+          },
+        ],
       },
       {
-        "name": "S3 Bucket Logging",
-        "description": "Checks that S3 buckets have logging enabled",
-        "inputParameters": {},
-        "maximumExecutionFrequency": "TwentyFour_Hours",
-        "complianceResourceId": "AWS::S3::Bucket",
-        "complianceResourceTypes": [
-          "AWS::S3::Bucket"
+        name: 'S3 Bucket Logging',
+        description: 'Checks that S3 buckets have logging enabled',
+        inputParameters: {},
+        maximumExecutionFrequency: 'TwentyFour_Hours',
+        complianceResourceId: 'AWS::S3::Bucket',
+        complianceResourceTypes: [
+          'AWS::S3::Bucket',
         ],
-        "owner": "AWS",
-        "sourceDetails": [
+        owner: 'AWS',
+        sourceDetails: [
           {
-            "eventSource": "aws.config",
-            "messageType": "ConfigurationItemChangeNotification",
-            "sourceIdentifier": "AWS_S3_BUCKET_LOGGING"
-          }
-        ]
-      }
+            eventSource: 'aws.config',
+            messageType: 'ConfigurationItemChangeNotification',
+            sourceIdentifier: 'AWS_S3_BUCKET_LOGGING',
+          },
+        ],
+      },
     ];
 
     for (const rule of hipaaRules) {

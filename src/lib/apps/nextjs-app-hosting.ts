@@ -1,14 +1,14 @@
 // Contrust for hosting NextJS 13 app on AWS Amplify
 // https://aws.amazon.com/blogs/mobile/deploy-a-nextjs-13-application-to-amplify-with-the-aws-cdk/
 
-import { CfnOutput, SecretValue, Stack, StackProps } from "aws-cdk-lib";
-import { Construct } from "constructs";
-import * as codebuild from "aws-cdk-lib/aws-codebuild";
 import {
   App,
   GitHubSourceCodeProvider,
   RedirectStatus,
-} from "@aws-cdk/aws-amplify-alpha";
+} from '@aws-cdk/aws-amplify-alpha';
+import { SecretValue, Stack, StackProps } from 'aws-cdk-lib';
+import * as codebuild from 'aws-cdk-lib/aws-codebuild';
+import { Construct } from 'constructs';
 
 export interface NextjsAppHostingProps extends StackProps {
   readonly projectName?: string;
@@ -23,15 +23,14 @@ export class NextjsAppHosting extends Stack {
   constructor(scope: Construct, id: string, props?: NextjsAppHostingProps) {
     super(scope, id, props);
 
-    const projectName = props?.projectName || "nextjs-aws-amplify";
     const environmentVariables = props?.environmentVariables || {};
-    const owner = props?.owner || "johndoe";
-    const repository = props?.repositoryName || "nextjs-aws-amplify";
-    const domainName = props?.domainName || "example.com";
+    const owner = props?.owner || 'johndoe';
+    const repository = props?.repositoryName || 'nextjs-aws-amplify';
+    const domainName = props?.domainName || 'example.com';
     const githubOauthTokenName =
-      props?.githubOauthTokenName || "github-oauth-token";
+      props?.githubOauthTokenName || 'github-oauth-token';
 
-    const amplifyApp = new App(this, "WebApp", {
+    const amplifyApp = new App(this, 'WebApp', {
       sourceCodeProvider: new GitHubSourceCodeProvider({
         owner: owner,
         repository: repository,
@@ -39,8 +38,8 @@ export class NextjsAppHosting extends Stack {
       }),
       customRules: [
         {
-          source: "/<*>",
-          target: "	/index.html",
+          source: '/<*>',
+          target: '	/index.html',
           status: RedirectStatus.NOT_FOUND_REWRITE,
         },
       ],
@@ -53,24 +52,24 @@ export class NextjsAppHosting extends Stack {
         frontend: {
           phases: {
             preBuild: {
-              commands: ["npm ci"],
+              commands: ['npm ci'],
             },
             build: {
-              commands: ["npm run build"],
+              commands: ['npm run build'],
             },
           },
           artifacts: {
-            baseDirectory: ".next",
-            files: ["**/*"],
+            baseDirectory: '.next',
+            files: ['**/*'],
           },
           cache: {
-            paths: ["node_modules/**/*"],
+            paths: ['node_modules/**/*'],
           },
         },
       }),
     });
 
-    const main = amplifyApp.addBranch("main", { stage: "PRODUCTION" });
+    const main = amplifyApp.addBranch('main', { stage: 'PRODUCTION' });
 
     // Add domain and map to main branch
     // See Example Test for more details on how to use this construct:
@@ -81,7 +80,7 @@ export class NextjsAppHosting extends Stack {
         enableAutoSubdomain: true,
       });
       domain.mapRoot(main);
-      domain.mapSubDomain(main, "www");
+      domain.mapSubDomain(main, 'www');
     }
   }
 }
