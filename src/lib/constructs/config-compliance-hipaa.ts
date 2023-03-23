@@ -30,7 +30,7 @@ export class ConfigComplianceHipaa extends Construct {
     const hipaaRules = [
       // Rules related to security, availability, processing integrity, confidentiality, and privacy
       {
-        name: 'EBS Volume Encryption',
+        name: 'EBS_Volume_Encryption',
         description: 'Checks that EBS volumes attached to EC2 instances are encrypted',
         inputParameters: {},
         maximumExecutionFrequency: 'TwentyFour_Hours',
@@ -48,7 +48,7 @@ export class ConfigComplianceHipaa extends Construct {
         ],
       },
       {
-        name: 'RDS Encryption',
+        name: 'RDS_Encryption',
         description: 'Checks that RDS instances are encrypted',
         inputParameters: {},
         maximumExecutionFrequency: 'TwentyFour_Hours',
@@ -66,7 +66,7 @@ export class ConfigComplianceHipaa extends Construct {
         ],
       },
       {
-        name: 'S3 Bucket Logging',
+        name: 'S3_Bucket_Logging',
         description: 'Checks that S3 buckets have logging enabled',
         inputParameters: {},
         maximumExecutionFrequency: 'TwentyFour_Hours',
