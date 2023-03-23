@@ -22,10 +22,6 @@ export class ConfigComplianceSoc2 extends Construct {
     });
 
     // Set up AWS Config rules for SOC 2 compliance
-    // - Security groups attached to EC2 instances allow only necessary ingress traffic
-    // - S3 buckets do not allow public access
-    // - RDS snapshots are encrypted
-
     const soc2Rules = [
       // Rules related to security, availability, processing integrity, confidentiality, and privacy
       {
@@ -33,54 +29,24 @@ export class ConfigComplianceSoc2 extends Construct {
         description: 'Checks that the security groups attached to EC2 instances allow only necessary ingress traffic',
         inputParameters: { portNumber: 80, protocol: 'TCP', allowedCIDRs: '0.0.0.0/0' },
         maximumExecutionFrequency: 'TwentyFour_Hours',
-        complianceResourceId: 'AWS::EC2::Instance',
-        complianceResourceTypes: [
-          'AWS::EC2::Instance',
-        ],
         owner: 'AWS',
-        sourceDetails: [
-          {
-            eventSource: 'aws.config',
-            messageType: 'ConfigurationItemChangeNotification',
-            sourceIdentifier: 'AWS_EC2_SECURITY_GROUP_INGRESS_RULES',
-          },
-        ],
+        sourceIdentifier: 'AWS_EC2_SECURITY_GROUP_INGRESS_RULES',
       },
       {
         name: 'S3_Bucket_Public_Access',
         description: 'Checks that S3 buckets do not allow public access',
         inputParameters: { maxAccessKeyAge: 60 },
         maximumExecutionFrequency: 'TwentyFour_Hours',
-        complianceResourceId: 'AWS::S3::Bucket',
-        complianceResourceTypes: [
-          'AWS::S3::Bucket',
-        ],
         owner: 'AWS',
-        sourceDetails: [
-          {
-            eventSource: 'aws.config',
-            messageType: 'ConfigurationItemChangeNotification',
-            sourceIdentifier: 'AWS_S3_BUCKET_PUBLIC_ACCESS',
-          },
-        ],
+        sourceIdentifier: 'AWS_S3_BUCKET_PUBLIC_ACCESS',
       },
       {
         name: 'RDS_Snapshot_Encryption',
         description: 'Checks that RDS snapshots are encrypted',
         inputParameters: { maxAccessKeyAge: 60 },
         maximumExecutionFrequency: 'TwentyFour_Hours',
-        complianceResourceId: 'AWS::RDS::DBSnapshot',
-        complianceResourceTypes: [
-          'AWS::RDS::DBSnapshot',
-        ],
         owner: 'AWS',
-        sourceDetails: [
-          {
-            eventSource: 'aws.config',
-            messageType: 'ConfigurationItemChangeNotification',
-            sourceIdentifier: 'AWS_RDS_SNAPSHOT_ENCRYPTION',
-          },
-        ],
+        sourceIdentifier: 'AWS_RDS_SNAPSHOT_ENCRYPTION',
       },
     ];
 
@@ -91,13 +57,15 @@ export class ConfigComplianceSoc2 extends Construct {
         inputParameters: rule.inputParameters,
         maximumExecutionFrequency: rule.maximumExecutionFrequency,
         scope: {
-          complianceResourceId: rule.complianceResourceId,
-          complianceResourceTypes: rule.complianceResourceTypes,
+          complianceResourceTypes: [
+            'AWS::EC2::Instance',
+            'AWS::S3::Bucket',
+            'AWS::RDS::DBSnapshot',
+          ],
         },
         source: {
           owner: rule.owner,
-          sourceDetails: rule.sourceDetails,
-          sourceIdentifier: rule.sourceDetails[0].sourceIdentifier,
+          sourceIdentifier: rule.sourceIdentifier,
         },
       });
     }

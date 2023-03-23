@@ -11,7 +11,6 @@ export class ConfigComplianceHipaa extends Construct {
   constructor(scope: Construct, id: string, props?: ConfigComplianceHipaaProps) {
     super(scope, id);
 
-
     const configCompliance = new config.CfnConfigurationRecorder(this, 'ConfigCompliance', {
       name: 'ConfigCompliance',
       recordingGroup: {
@@ -21,67 +20,31 @@ export class ConfigComplianceHipaa extends Construct {
       roleArn: <string>props?.roleArn,
     });
 
-    // Set up AWS Config rules for SOC 2 compliance
-
-    // - EBS volumes attached to EC2 instances are encrypted
-    // - RDS instances are encrypted
-    // - S3 buckets have logging enabled
-
+    // Set up AWS Config rules for HIPAA compliance
     const hipaaRules = [
-      // Rules related to security, availability, processing integrity, confidentiality, and privacy
       {
         name: 'EBS_Volume_Encryption',
         description: 'Checks that EBS volumes attached to EC2 instances are encrypted',
         inputParameters: {},
         maximumExecutionFrequency: 'TwentyFour_Hours',
-        complianceResourceId: 'AWS::EC2::Volume',
-        complianceResourceTypes: [
-          'AWS::EC2::Volume',
-        ],
         owner: 'AWS',
-        sourceDetails: [
-          {
-            eventSource: 'aws.config',
-            messageType: 'ConfigurationItemChangeNotification',
-            sourceIdentifier: 'AWS_EBS_VOLUME_ENCRYPTION',
-          },
-        ],
+        sourceIdentifier: 'EBS_ENCRYPTED_VOLUMES',
       },
       {
         name: 'RDS_Encryption',
         description: 'Checks that RDS instances are encrypted',
         inputParameters: {},
         maximumExecutionFrequency: 'TwentyFour_Hours',
-        complianceResourceId: 'AWS::RDS::DBInstance',
-        complianceResourceTypes: [
-          'AWS::RDS::DBInstance',
-        ],
         owner: 'AWS',
-        sourceDetails: [
-          {
-            eventSource: 'aws.config',
-            messageType: 'ConfigurationItemChangeNotification',
-            sourceIdentifier: 'AWS_RDS_ENCRYPTION',
-          },
-        ],
+        sourceIdentifier: 'RDS_STORAGE_ENCRYPTED',
       },
       {
         name: 'S3_Bucket_Logging',
         description: 'Checks that S3 buckets have logging enabled',
         inputParameters: {},
         maximumExecutionFrequency: 'TwentyFour_Hours',
-        complianceResourceId: 'AWS::S3::Bucket',
-        complianceResourceTypes: [
-          'AWS::S3::Bucket',
-        ],
         owner: 'AWS',
-        sourceDetails: [
-          {
-            eventSource: 'aws.config',
-            messageType: 'ConfigurationItemChangeNotification',
-            sourceIdentifier: 'AWS_S3_BUCKET_LOGGING',
-          },
-        ],
+        sourceIdentifier: 'S3_BUCKET_LOGGING_ENABLED',
       },
     ];
 
@@ -92,13 +55,15 @@ export class ConfigComplianceHipaa extends Construct {
         inputParameters: rule.inputParameters,
         maximumExecutionFrequency: rule.maximumExecutionFrequency,
         scope: {
-          complianceResourceId: rule.complianceResourceId,
-          complianceResourceTypes: rule.complianceResourceTypes,
+          complianceResourceTypes: [
+            'AWS::EC2::Volume',
+            'AWS::RDS::DBInstance',
+            'AWS::S3::Bucket',
+          ],
         },
         source: {
           owner: rule.owner,
-          sourceDetails: rule.sourceDetails,
-          sourceIdentifier: rule.sourceDetails[0].sourceIdentifier,
+          sourceIdentifier: rule.sourceIdentifier,
         },
       });
     }

@@ -20,66 +20,28 @@ export class ConfigComplianceGdpr extends Construct {
       roleArn: <string>props?.roleArn,
     });
 
-    // Set up AWS Config rules for SOC 2 compliance
-    // - EC2 instances have metadata protection enabled
-    // - S3 buckets have server-side encryption enabled
-    // - Lambda functions have logging enabled
-
+    // Set up AWS Config rules for GDPR compliance
     const gdprRules = [
-      // Rules related to security, availability, processing integrity, confidentiality, and privacy
       {
         name: 'EC2_Instance_Metadata_Protection',
         description: 'Checks that EC2 instances have metadata protection enabled',
-        inputParameters: { maxAccessKeyAge: 60 },
         maximumExecutionFrequency: 'TwentyFour_Hours',
-        complianceResourceId: 'AWS::EC2::Instance',
-        complianceResourceTypes: [
-          'AWS::EC2::Instance',
-        ],
         owner: 'AWS',
-        sourceDetails: [
-          {
-            eventSource: 'aws.config',
-            messageType: 'ConfigurationItemChangeNotification',
-            sourceIdentifier: 'AWS_EC2_METADATA_PROTECTION',
-          },
-        ],
+        sourceIdentifier: 'INSTANCE_METADATA_SERVICE_ENABLED',
       },
       {
         name: 'S3_Bucket_Encryption',
         description: 'Checks that S3 buckets have server-side encryption enabled',
-        inputParameters: { maxAccessKeyAge: 60 },
         maximumExecutionFrequency: 'TwentyFour_Hours',
-        complianceResourceId: 'AWS::S3::Bucket',
-        complianceResourceTypes: [
-          'AWS::S3::Bucket',
-        ],
         owner: 'AWS',
-        sourceDetails: [
-          {
-            eventSource: 'aws.config',
-            messageType: 'ConfigurationItemChangeNotification',
-            sourceIdentifier: 'AWS_S3_BUCKET_ENCRYPTION',
-          },
-        ],
+        sourceIdentifier: 'S3_BUCKET_SERVER_SIDE_ENCRYPTION_ENABLED',
       },
       {
         name: 'Lambda_Function_Logging',
         description: 'Checks that Lambda functions have logging enabled',
-        inputParameters: { maxAccessKeyAge: 60 },
         maximumExecutionFrequency: 'TwentyFour_Hours',
-        complianceResourceId: 'AWS::Lambda::Function',
-        complianceResourceTypes: [
-          'AWS::Lambda::Function',
-        ],
         owner: 'AWS',
-        sourceDetails: [
-          {
-            eventSource: 'aws.config',
-            messageType: 'ConfigurationItemChangeNotification',
-            sourceIdentifier: 'AWS_LAMBDA_FUNCTION_LOGGING',
-          },
-        ],
+        sourceIdentifier: 'LAMBDA_FUNCTION_LOGGING_ENABLED',
       },
     ];
 
@@ -87,16 +49,17 @@ export class ConfigComplianceGdpr extends Construct {
       new config.CfnConfigRule(this, `MyGdprRule-${rule.name}`, {
         configRuleName: `MyGdprRule-${rule.name}`,
         description: rule.description,
-        inputParameters: rule.inputParameters,
         maximumExecutionFrequency: rule.maximumExecutionFrequency,
         scope: {
-          complianceResourceId: rule.complianceResourceId,
-          complianceResourceTypes: rule.complianceResourceTypes,
+          complianceResourceTypes: [
+            'AWS::EC2::Instance',
+            'AWS::S3::Bucket',
+            'AWS::Lambda::Function',
+          ],
         },
         source: {
           owner: rule.owner,
-          sourceDetails: rule.sourceDetails,
-          sourceIdentifier: rule.sourceDetails[0].sourceIdentifier,
+          sourceIdentifier: rule.sourceIdentifier,
         },
       });
     }
