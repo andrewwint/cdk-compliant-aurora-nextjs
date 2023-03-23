@@ -53,8 +53,8 @@ export class CdkCompliantAuroraNextjsStack extends cdk.Stack {
 
     // CONFIGURATION
     const instanceType = props?.instanceSize || 'small';
-    const projectName = props?.projectName || 'patient-portal';
-    const dbName = projectName + '-db' || 'patient-portal-db';
+    const projectName = props?.projectName || 'patientportal';
+    const dbName = projectName + 'db' || 'patientportaldb';
     const dbUsername: string = 'admin';
     this.dbName = dbName;
     const budgetLimit = 500;
@@ -74,7 +74,7 @@ export class CdkCompliantAuroraNextjsStack extends cdk.Stack {
           amount: budgetLimit || 500,
           unit: budgetCurrency || 'USD',
         },
-        budgetName: projectName + '-db' || 'patient-portal-db',
+        budgetName: projectName + 'db' || 'patientportaldb',
         budgetType: 'COST',
         costFilters: { Service: ['AmazonRDS'] },
         timeUnit: 'MONTHLY',
@@ -159,7 +159,6 @@ export class CdkCompliantAuroraNextjsStack extends cdk.Stack {
     const dbSecurityGroup = new ec2.SecurityGroup(this, 'DbSecurityGroup', {
       vpc: vpc,
       allowAllOutbound: true,
-      securityGroupName: dbName + '-sg',
       description: 'Security Group for ' + dbName,
     });
 
@@ -225,7 +224,7 @@ export class CdkCompliantAuroraNextjsStack extends cdk.Stack {
       },
       cloudwatchLogsExports: ['error', 'general', 'audit'], // Cloudwatch logs for the database cluster
       deletionProtection: true, // Prevents accidental deletion of the database cluster aling with HIPAA or GDPR regulations
-      defaultDatabaseName: dbName || 'patient-portal-db', // Database name for the database cluster
+      defaultDatabaseName: dbName || 'patientportaldb', // Database name for the database cluster
       credentials: rds.Credentials.fromGeneratedSecret('clusterAdmin', {
         encryptionKey: rdsKey,
       }),

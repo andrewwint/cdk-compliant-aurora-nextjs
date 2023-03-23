@@ -21,7 +21,7 @@ export class CdkPipelineStage extends Stage {
      * This is where you can add stacks to be deployed in the target accounts.
      */
     new CdkCompliantAuroraNextjsStack(this, `CdkCompliantAuroraNextjsStack-${props?.stage}`, {
-      projectName: 'patient-portal',
+      projectName: 'patientportal', // Can only contain alphanumeric characters.
       emailSubscription: 'from@email.com',
       domainName: 'patient-portal.com',
       instanceSize: 'small',
