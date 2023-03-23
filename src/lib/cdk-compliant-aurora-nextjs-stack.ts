@@ -12,7 +12,6 @@ import { InstanceType } from 'aws-cdk-lib/aws-ec2';
 import * as kms from 'aws-cdk-lib/aws-kms';
 import * as rds from 'aws-cdk-lib/aws-rds';
 import * as s3 from 'aws-cdk-lib/aws-s3';
-import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
 import { Construct } from 'constructs';
 import { NextjsAppHosting } from './apps/nextjs-app-hosting';
 import {
@@ -144,34 +143,15 @@ export class CdkCompliantAuroraNextjsStack extends cdk.Stack {
     const vpc = new ec2.Vpc(this, 'VPC', { maxAzs: 2 });
 
     // Aurora DB Key
-    const kmsKey = new kms.Key(this, 'AuroraDatabaseKey', {
+    const rdsKey = new kms.Key(this, 'AuroraDatabaseKey', {
       enableKeyRotation: true,
       alias: dbName,
     });
 
-    // DATABASE CLUSTER CONFIGURATIONS
-    // Database Credentials Secret Manager
-    const auroraClusterSecret = new secretsmanager.Secret(
-      this,
-      'AuroraClusterCredentials',
-      {
-        secretName: dbUsername + 'AuroraClusterCredentials',
-        description: dbUsername + 'AuroraClusterCrendetials',
-        encryptionKey: kmsKey,
-        generateSecretString: {
-          excludeCharacters: "\"@/\\ '",
-          generateStringKey: 'password',
-          passwordLength: 30,
-          secretStringTemplate: `{"username":${dbUsername}}`,
-        },
-      },
-    );
-
-    // aurora credentials
-    const auroraClusterCrendentials = rds.Credentials.fromSecret(
-      auroraClusterSecret,
-      dbUsername,
-    );
+    // Aurora DB Key
+    const s3Key = new kms.Key(this, 'ExportBucketKey', {
+      enableKeyRotation: true,
+    });
 
     // Database Security Group
     // Allow external access to the database cluster
@@ -217,7 +197,7 @@ export class CdkCompliantAuroraNextjsStack extends cdk.Stack {
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       bucketName: dbName + '-bucket',
       encryption: s3.BucketEncryption.KMS,
-      encryptionKey: kmsKey,
+      encryptionKey: s3Key,
       serverAccessLogsBucket: accessLogsBucket,
       serverAccessLogsPrefix: 'logs',
       versioned: true,
@@ -238,7 +218,7 @@ export class CdkCompliantAuroraNextjsStack extends cdk.Stack {
       },
       monitoringInterval: Duration.seconds(30), // Monitoring interval for the database cluster
       storageEncrypted: true, // Encrypts the database cluster for HIPAA or GDPR regulations
-      storageEncryptionKey: kmsKey, // KMS Key for encryption
+      storageEncryptionKey: rdsKey, // KMS Key for encryption
       backup: {
         // Retention period for the database cluster backups
         retention: Duration.days(35),
@@ -247,7 +227,9 @@ export class CdkCompliantAuroraNextjsStack extends cdk.Stack {
       cloudwatchLogsExports: ['error', 'general', 'audit'], // Cloudwatch logs for the database cluster
       deletionProtection: true, // Prevents accidental deletion of the database cluster aling with HIPAA or GDPR regulations
       defaultDatabaseName: dbName || 'patient-portal-db', // Database name for the database cluster
-      credentials: auroraClusterCrendentials, // Credentials for the database cluster
+      credentials: rds.Credentials.fromGeneratedSecret('clusterAdmin', {
+        encryptionKey: rdsKey,
+      }),
       iamAuthentication: true, // IAM Authentication for the database cluster
       instanceIdentifierBase: 'patient-portal-db', // Database cluster identifier
       preferredMaintenanceWindow: 'sun:01:00-sun:02:00', // Preferred maintenance window for the database cluster
@@ -319,12 +301,6 @@ export class CdkCompliantAuroraNextjsStack extends cdk.Stack {
     new CfnOutput(this, 'DatabaseClusterUsername', {
       exportName: 'DatabaseClusterUsername',
       value: dbUsername,
-    });
-
-    // Output the database cluster password
-    new CfnOutput(this, 'DatabaseClusterPassword', {
-      exportName: 'DatabaseClusterPassword',
-      value: auroraClusterSecret.secretValue.unsafeUnwrap().toString(),
     });
   }
 }
