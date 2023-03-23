@@ -18,7 +18,7 @@ This project aims to designed to build a compliant application stack that aims t
 
 ## CdkCompliantAuroraNextjsStack
 
-![alt](./assets/AuroraPinpointStack.template.json.png)
+![alt](./src/assets/AuroraPinpointStack.template.json.png)
 
 ## CdkCompliantAuroraNextjsStack/**NextjsAppHosting**
 
@@ -128,15 +128,15 @@ checkov -f checkov -f ./cdk.out/CdkCompliantAuroraNextjsStack.template.json -f .
 [ secrets framework ]: 100%|████████████████████|[2/2], Current File Scanned=./cdk.out/CdkCompliantAuroraNextjsStackNextjsAppHosting955FDA38.templ
 
 
-       _               _              
+       _               _
    ___| |__   ___  ___| | _______   __
   / __| '_ \ / _ \/ __| |/ / _ \ \ / /
- | (__| | | |  __/ (__|   < (_) \ V / 
-  \___|_| |_|\___|\___|_|\_\___/ \_/  
-                                      
-By bridgecrew.io | version: 2.3.90 
+ | (__| | | |  __/ (__|   < (_) \ V /
+  \___|_| |_|\___|\___|_|\_\___/ \_/
+
+By bridgecrew.io | version: 2.3.90
 Update available 2.3.90 -> 2.3.96
-Run pip3 install -U checkov to update 
+Run pip3 install -U checkov to update
 
 
 cloudformation scan results:
