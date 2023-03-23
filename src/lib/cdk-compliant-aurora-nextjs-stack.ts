@@ -13,7 +13,7 @@ import * as kms from 'aws-cdk-lib/aws-kms';
 import * as rds from 'aws-cdk-lib/aws-rds';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import { Construct } from 'constructs';
-import { NextjsAppHosting } from './apps/nextjs-app-hosting';
+// import { NextjsAppHosting } from './apps/nextjs-app-hosting';
 import {
   CloudWatchDashboard,
   // ConfigComplianceHipaa,
@@ -61,9 +61,9 @@ export class CdkCompliantAuroraNextjsStack extends cdk.Stack {
     const budgetCurrency = 'USD';
     const budgetNotificationEmail = 'support@email.com';
     const emailSubscription = props?.emailSubscription || undefined;
-    const domainName = props?.domainName;
-    const repositoryName = props?.repositoryName || undefined;
-    const repositoryOwner = props?.repositoryOwner || undefined;
+    // const domainName = props?.domainName;
+    // const repositoryName = props?.repositoryName || undefined;
+    // const repositoryOwner = props?.repositoryOwner || undefined;
 
     // BUDGET CONFIGURATION
     // Budget Limit and Notification
@@ -241,26 +241,26 @@ export class CdkCompliantAuroraNextjsStack extends cdk.Stack {
       excludeCharacters: "\"@/\\ '",
     });
 
-    const githubOauthToken = Buffer.from('github-token').toString('base64'); // Github Oauth Token for the repository stub
+    // const githubOauthToken = Buffer.from('github-token').toString('base64'); // Github Oauth Token for the repository stub
 
     // Nextjs App Hosting Stack
-    new NextjsAppHosting(this, 'NextjsAppHosting', {
-      // Name given to plaintext secret in secretsManager.
-      // When creating the token scope on Github, only the admin:repo_hook scope is needed
-      githubOauthTokenName: githubOauthToken,
-      domainName: domainName || 'my-nextjs-app.com',
-      // swap for your github username
-      owner: repositoryOwner || 'bobsmith',
-      // swap for your github frontend repo
-      repositoryName: repositoryName || 'simple-nextjs',
-      //pass in any envVars from the above stacks here
-      environmentVariables: {
-        DATABASE_READ_HOST: databaseCluster.clusterReadEndpoint.hostname,
-        DATABASE_READ_WRITE_HOST: databaseCluster.clusterEndpoint.hostname,
-        DATABASE_NANE: dbName,
-        DATABASE_PORT: `${databaseCluster.clusterEndpoint.port}`,
-      },
-    });
+    // new NextjsAppHosting(this, 'NextjsAppHosting', {
+    //   // Name given to plaintext secret in secretsManager.
+    //   // When creating the token scope on Github, only the admin:repo_hook scope is needed
+    //   githubOauthTokenName: githubOauthToken,
+    //   domainName: domainName || 'my-nextjs-app.com',
+    //   // swap for your github username
+    //   owner: repositoryOwner || 'bobsmith',
+    //   // swap for your github frontend repo
+    //   repositoryName: repositoryName || 'simple-nextjs',
+    //   //pass in any envVars from the above stacks here
+    //   environmentVariables: {
+    //     DATABASE_READ_HOST: databaseCluster.clusterReadEndpoint.hostname,
+    //     DATABASE_READ_WRITE_HOST: databaseCluster.clusterEndpoint.hostname,
+    //     DATABASE_NANE: dbName,
+    //     DATABASE_PORT: `${databaseCluster.clusterEndpoint.port}`,
+    //   },
+    // });
 
     // PIMPOINT CONFIGURATION
     // Create Pinpoint App if emailSubscription is defined
