@@ -171,18 +171,18 @@ export class CdkCompliantAuroraNextjsStack extends cdk.Stack {
 
     // Instance Type factory
     // eslint-disable-next-line @typescript-eslint/no-shadow
-    const instanceTypeFactory = (instanceType: string) => {
-      switch (instanceType) {
-        case 'small':
-          return InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.SMALL);
-        case 'medium':
-          return InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.MEDIUM);
-        case 'large':
-          return InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.LARGE);
-        default:
-          return InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.SMALL);
-      }
-    };
+    // const instanceTypeFactory = (instanceType: string) => {
+    //   switch (instanceType) {
+    //     case 'small':
+    //       return InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.SMALL);
+    //     case 'medium':
+    //       return InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.MEDIUM);
+    //     case 'large':
+    //       return InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.LARGE);
+    //     default:
+    //       return InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.SMALL);
+    //   }
+    // };
 
     const accessLogsBucket = new s3.Bucket(this, 'AccessLogsBucket', {
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
@@ -209,7 +209,6 @@ export class CdkCompliantAuroraNextjsStack extends cdk.Stack {
       }),
       instances: 1, // Number of instances in the database cluster default is 2
       instanceProps: {
-        instanceType: instanceTypeFactory(instanceType),
         vpc,
         securityGroups: [dbSecurityGroup],
         deleteAutomatedBackups: true, // TODO: Check if this is needed for HIPAA or GDPR
