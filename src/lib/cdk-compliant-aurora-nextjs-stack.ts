@@ -8,7 +8,7 @@ import {
 import * as budgets from 'aws-cdk-lib/aws-budgets';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import { InstanceType } from 'aws-cdk-lib/aws-ec2';
-import * as iam from 'aws-cdk-lib/aws-iam';
+// import * as iam from 'aws-cdk-lib/aws-iam';
 import * as kms from 'aws-cdk-lib/aws-kms';
 import * as rds from 'aws-cdk-lib/aws-rds';
 import * as s3 from 'aws-cdk-lib/aws-s3';
@@ -17,9 +17,9 @@ import { Construct } from 'constructs';
 import { NextjsAppHosting } from './apps/nextjs-app-hosting';
 import {
   CloudWatchDashboard,
-  ConfigComplianceHipaa,
-  ConfigComplianceSoc2,
-  ConfigComplianceGdpr,
+  // ConfigComplianceHipaa,
+  // ConfigComplianceSoc2,
+  // ConfigComplianceGdpr,
   Pinpoint,
 } from './constructs';
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
@@ -100,44 +100,44 @@ export class CdkCompliantAuroraNextjsStack extends cdk.Stack {
 
     // COMPLIANCE CONFIGURATION
     // Config Compliance managed by AWS Config
-    const configRole = new iam.Role(this, 'ConfigRole', {
-      assumedBy: new iam.ServicePrincipal('config.amazonaws.com'),
-      managedPolicies: [
-        iam.ManagedPolicy.fromAwsManagedPolicyName(
-          'service-role/AWSConfigRole',
-        ),
-      ],
-    });
+    // const configRole = new iam.Role(this, 'ConfigRole', {
+    //   assumedBy: new iam.ServicePrincipal('config.amazonaws.com'),
+    //   managedPolicies: [
+    //     iam.ManagedPolicy.fromAwsManagedPolicyName(
+    //       'service-role/AWSConfigRole',
+    //     ),
+    //   ],
+    // });
 
     // SOC2 Compliance rules
-    new ConfigComplianceSoc2(
-      this,
-      'ConfigComplianceSoc2',
-      {
-        projectName: props?.projectName,
-        roleArn: configRole.roleArn,
-      },
-    );
+    // new ConfigComplianceSoc2(
+    //   this,
+    //   'ConfigComplianceSoc2',
+    //   {
+    //     projectName: props?.projectName,
+    //     roleArn: configRole.roleArn,
+    //   },
+    // );
 
     // HIPAA Compliance rules
-    new ConfigComplianceHipaa(
-      this,
-      'ConfigComplianceHipaa',
-      {
-        projectName: props?.projectName,
-        roleArn: configRole.roleArn,
-      },
-    );
+    // new ConfigComplianceHipaa(
+    //   this,
+    //   'ConfigComplianceHipaa',
+    //   {
+    //     projectName: props?.projectName,
+    //     roleArn: configRole.roleArn,
+    //   },
+    // );
 
     // GDPR Compliance rules
-    new ConfigComplianceGdpr(
-      this,
-      'ConfigComplianceGdpr',
-      {
-        projectName: props?.projectName,
-        roleArn: configRole.roleArn,
-      },
-    );
+    // new ConfigComplianceGdpr(
+    //   this,
+    //   'ConfigComplianceGdpr',
+    //   {
+    //     projectName: props?.projectName,
+    //     roleArn: configRole.roleArn,
+    //   },
+    // );
 
     // NETWORKING CONFIGURATION
     // Create VPC with 2 AZs
