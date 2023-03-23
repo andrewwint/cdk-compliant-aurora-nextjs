@@ -1,14 +1,17 @@
-#!/usr/bin/env node
-import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
-import { CdkCompliantAuroraNextjsStack } from './lib/cdk-compliant-aurora-nextjs-stack';
+import { CdkPipelineStack } from './lib/pipeline';
 
 const app = new cdk.App();
-new CdkCompliantAuroraNextjsStack(app, 'CdkCompliantAuroraNextjsStack', {
-  projectName: 'patient-portal',
-  emailSubscription: 'from@email.com',
-  domainName: 'patient-portal.com',
-  instanceSize: 'small',
-  repositoryName: 'nextjs-prisma-webapp',
-  repositoryOwner: 'andrewwint',
+
+new CdkPipelineStack(app, 'cdkPipelineStack', {
+  env: {
+    account: '790768631355',
+    region: 'us-east-1',
+  },
 });
+
+/* These tags only apply to the pipeline stack, not the
+stacks that are deployed through the pipeline stages */
+cdk.Tags.of(app).add('type', 'cdk-deployment-pipeline');
+
+app.synth();
