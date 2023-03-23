@@ -195,7 +195,6 @@ export class CdkCompliantAuroraNextjsStack extends cdk.Stack {
     // S3 Bucket for Database Backups
     const exportBucket = new s3.Bucket(this, 'ExportBucket', {
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      bucketName: dbName + '-bucket',
       encryption: s3.BucketEncryption.KMS,
       encryptionKey: s3Key,
       serverAccessLogsBucket: accessLogsBucket,
