@@ -7,7 +7,7 @@ import {
 } from 'aws-cdk-lib';
 import * as budgets from 'aws-cdk-lib/aws-budgets';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
-import { InstanceType } from 'aws-cdk-lib/aws-ec2';
+// import { InstanceType } from 'aws-cdk-lib/aws-ec2';
 // import * as iam from 'aws-cdk-lib/aws-iam';
 import * as kms from 'aws-cdk-lib/aws-kms';
 import * as rds from 'aws-cdk-lib/aws-rds';
@@ -52,7 +52,7 @@ export class CdkCompliantAuroraNextjsStack extends cdk.Stack {
     // });
 
     // CONFIGURATION
-    const instanceType = props?.instanceSize || 'small';
+    // const instanceType = props?.instanceSize || 'small';
     const projectName = props?.projectName || 'patientportal';
     const dbName = projectName + 'db' || 'patientportaldb';
     const dbUsername: string = 'admin';
