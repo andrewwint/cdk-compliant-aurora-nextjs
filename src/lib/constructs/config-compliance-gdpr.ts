@@ -28,7 +28,7 @@ export class ConfigComplianceGdpr extends Construct {
     const gdprRules = [
       // Rules related to security, availability, processing integrity, confidentiality, and privacy
       {
-        name: 'EC2 Instance Metadata Protection',
+        name: 'EC2_Instance_Metadata_Protection',
         description: 'Checks that EC2 instances have metadata protection enabled',
         inputParameters: { maxAccessKeyAge: 60 },
         maximumExecutionFrequency: 'TwentyFour_Hours',
@@ -46,7 +46,7 @@ export class ConfigComplianceGdpr extends Construct {
         ],
       },
       {
-        name: 'S3 Bucket Encryption',
+        name: 'S3_Bucket_Encryption',
         description: 'Checks that S3 buckets have server-side encryption enabled',
         inputParameters: { maxAccessKeyAge: 60 },
         maximumExecutionFrequency: 'TwentyFour_Hours',
@@ -64,7 +64,7 @@ export class ConfigComplianceGdpr extends Construct {
         ],
       },
       {
-        name: 'Lambda Function Logging',
+        name: 'Lambda_Function_Logging',
         description: 'Checks that Lambda functions have logging enabled',
         inputParameters: { maxAccessKeyAge: 60 },
         maximumExecutionFrequency: 'TwentyFour_Hours',

@@ -29,7 +29,7 @@ export class ConfigComplianceSoc2 extends Construct {
     const soc2Rules = [
       // Rules related to security, availability, processing integrity, confidentiality, and privacy
       {
-        name: 'EC2 Instance Security Group Ingress Rules',
+        name: 'EC2_Instance_Security_Group_Ingress_Rules',
         description: 'Checks that the security groups attached to EC2 instances allow only necessary ingress traffic',
         inputParameters: { portNumber: 80, protocol: 'TCP', allowedCIDRs: '0.0.0.0/0' },
         maximumExecutionFrequency: 'TwentyFour_Hours',
@@ -47,7 +47,7 @@ export class ConfigComplianceSoc2 extends Construct {
         ],
       },
       {
-        name: 'S3 Bucket Public Access',
+        name: 'S3_Bucket_Public_Access',
         description: 'Checks that S3 buckets do not allow public access',
         inputParameters: { maxAccessKeyAge: 60 },
         maximumExecutionFrequency: 'TwentyFour_Hours',
@@ -65,7 +65,7 @@ export class ConfigComplianceSoc2 extends Construct {
         ],
       },
       {
-        name: 'RDS Snapshot Encryption',
+        name: 'RDS_Snapshot_Encryption',
         description: 'Checks that RDS snapshots are encrypted',
         inputParameters: { maxAccessKeyAge: 60 },
         maximumExecutionFrequency: 'TwentyFour_Hours',
