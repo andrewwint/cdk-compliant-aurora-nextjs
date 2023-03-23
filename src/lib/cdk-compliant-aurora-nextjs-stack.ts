@@ -221,7 +221,7 @@ export class CdkCompliantAuroraNextjsStack extends cdk.Stack {
       backup: {
         // Retention period for the database cluster backups
         retention: Duration.days(35),
-        preferredWindow: '01:00-02:00',
+        preferredWindow: '00:00-01:00',
       },
       cloudwatchLogsExports: ['error', 'general', 'audit'], // Cloudwatch logs for the database cluster
       deletionProtection: true, // Prevents accidental deletion of the database cluster aling with HIPAA or GDPR regulations
@@ -231,7 +231,7 @@ export class CdkCompliantAuroraNextjsStack extends cdk.Stack {
       }),
       iamAuthentication: true, // IAM Authentication for the database cluster
       instanceIdentifierBase: 'patient-portal-db', // Database cluster identifier
-      preferredMaintenanceWindow: 'sun:01:00-sun:02:00', // Preferred maintenance window for the database cluster
+      preferredMaintenanceWindow: 'sun:01:30-sun:02:00', // Preferred maintenance window for the database cluster
       removalPolicy: RemovalPolicy.DESTROY, // Destroy the database cluster when the stack is destroyed. Regarding compliance with HIPAA, GDPR, or SOC 2, it is generally recommended to follow the principle of least privilege and minimize the attack surface of your infrastructure.
       s3ExportBuckets: [exportBucket], // S3 Bucket for database backups for HIPAA or GDPR regulations and ease of management
     });
