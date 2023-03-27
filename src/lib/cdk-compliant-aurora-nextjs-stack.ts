@@ -7,7 +7,7 @@ import {
 } from 'aws-cdk-lib';
 import * as budgets from 'aws-cdk-lib/aws-budgets';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
-// import { InstanceType } from 'aws-cdk-lib/aws-ec2';
+import { InstanceType } from 'aws-cdk-lib/aws-ec2';
 // import * as iam from 'aws-cdk-lib/aws-iam';
 import * as kms from 'aws-cdk-lib/aws-kms';
 import * as rds from 'aws-cdk-lib/aws-rds';
@@ -52,7 +52,7 @@ export class CdkCompliantAuroraNextjsStack extends cdk.Stack {
     // });
 
     // CONFIGURATION
-    // const instanceType = props?.instanceSize || 'small';
+    const instanceSize = props?.instanceSize || 'small';
     const projectName = props?.projectName || 'patientportal';
     const dbName = projectName + 'db' || 'patientportaldb';
     const dbUsername: string = 'admin';
@@ -169,20 +169,20 @@ export class CdkCompliantAuroraNextjsStack extends cdk.Stack {
       'Allow access to the database from the VPC from any IP',
     );
 
-    // Instance Type factory
-    // eslint-disable-next-line @typescript-eslint/no-shadow
-    // const instanceTypeFactory = (instanceType: string) => {
-    //   switch (instanceType) {
-    //     case 'small':
-    //       return InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.SMALL);
-    //     case 'medium':
-    //       return InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.MEDIUM);
-    //     case 'large':
-    //       return InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.LARGE);
-    //     default:
-    //       return InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.SMALL);
-    //   }
-    // };
+    //Instance Type factory
+    const instanceTypeFactory = (instanceType: string) => {
+      switch (instanceType) {
+        case 'small':
+          return InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.SMALL);
+        case 'medium':
+          return InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.MEDIUM);
+        case 'large':
+          return InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.LARGE);
+        default:
+          return InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.SMALL);
+      }
+    };
+
 
     const accessLogsBucket = new s3.Bucket(this, 'AccessLogsBucket', {
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
@@ -209,6 +209,7 @@ export class CdkCompliantAuroraNextjsStack extends cdk.Stack {
       }),
       instances: 1, // Number of instances in the database cluster default is 2
       instanceProps: {
+        instanceType: instanceTypeFactory(instanceSize),
         vpc,
         securityGroups: [dbSecurityGroup],
         deleteAutomatedBackups: true, // TODO: Check if this is needed for HIPAA or GDPR
